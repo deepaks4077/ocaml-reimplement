@@ -89,9 +89,16 @@ let rec map f l =
 *)
 
 let rec mapi i f = function
-    [] -> []
-  | a::l -> let r = f i a in r :: mapi (i + 1) f l
+	| [] -> []
+	| a::l -> let r = f i a in r :: mapi (i + 1) f l
 ;;
+
+let rec rev_map f l r = match l with
+	| [] -> r
+	| a::l -> rev_map f l ((f a)::r)
+;;
+
+let rev_map f = rev_map f l [];;
 
 
 
