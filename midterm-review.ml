@@ -27,13 +27,12 @@ let nth_list n l =
 	if n < 0 
 		then raise (Failure "invalid argument")
 	else
-		let rec nth_aux l n =  
+		let rec nth_aux n l =  
 			match l with 
 			| [] -> raise (Failure "nth")
-			| a::l -> if n = 0 then l else nth_aux l (n-1)
+			| a::l -> if n = 0 then l else nth_aux (n-1) l 
 		in nth_aux n l
 ;;
-
 
 let nth l n = 
 	if n < 0 
@@ -67,7 +66,7 @@ let rec concat l = match l with
 let flatten = concat;;
 
 let rec iter f l = match l with 
-	| [] -> raise (Failure "Empty List")
+	| [] -> ()
 	| a::l -> f a; iter f l
 ;;
 
@@ -75,8 +74,24 @@ let iteri n f l =
 	if n < 0
 		then raise (Failure "invalid argument")
 	else
-		iter (nth_list n l) 
+		iter f (nth_list n l) 
 ;;
+
+let rec map f l = 
+	match l with
+		| [] -> []
+		| a::l -> let r = f a in r::(map f l)
+;;
+
+let rec mapi i f = function
+    [] -> []
+  | a::l -> let r = f i a in r :: mapi (i + 1) f l
+;;
+
+
+
+
+
 
 
 
