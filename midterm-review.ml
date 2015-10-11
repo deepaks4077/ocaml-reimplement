@@ -83,6 +83,11 @@ let rec map f l =
 		| a::l -> let r = f a in r::(map f l)
 ;;
 
+(*  Can use function keyword to define an anonymous function
+	which takes in an argument for pattern-matching. No match
+	keyword required.
+*)
+
 let rec mapi i f = function
     [] -> []
   | a::l -> let r = f i a in r :: mapi (i + 1) f l
