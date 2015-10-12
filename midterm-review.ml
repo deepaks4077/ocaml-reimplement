@@ -218,6 +218,16 @@ let rec combine = function
 	| _,_ -> raise (Failure "List.Invalid_argument")
 ;;
 
+let rec merge cmp l1 l2 = match l1,l2 with
+	| [],l2 -> l2
+	| l1,[] -> l1
+	| a::t1,b::t2 -> if cmp a b <= 0 then  
+					 a::merge cmp t1 l2
+					 else b::merge cmp l1 t2 
+;;
+
+
+
 
 
 
