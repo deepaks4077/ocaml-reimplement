@@ -142,6 +142,63 @@ let rec exists p = function
 	| a::l -> p a || exists p l
 ;;
 
+let rec for_all2 p l1 l2 = match l1,l2 with 
+	| ([],[]) -> true
+	| (a1::l1,a2::l2) -> (p a1 a2) && for_all2 p l1 l2
+	| (_,_) -> raise (Failure "List.Invalid_argument")
+;;
+
+let rec exists2 p l1 l2 = match l1,l2 with 
+	| ([],[]) -> true
+	| (a1::l1,a2::l2) -> (p a1 a2) || exists2 p l1 l2
+	| (_,_) -> raise (Failure "List.Invalid_argument")
+;;
+
+let mem a l = let p = fun a' -> a' = a in exists p l;;
+
+let rec memq a  = function
+	  [] -> false
+	| x::l -> a = x || memq a l 
+;;
+
+let rec find p = function
+	  [] -> raise (Failure "List.Not_found")
+	| a::l -> if p a then a else find p l 
+;;
+
+let rec filter p = function 
+	  [] -> []
+	| a::l -> if p a then a::(filter p l) else filter p l
+;;  
+
+let partition p l = 
+	let rec partition2 (yes,no) = function 
+	  [] -> (rev yes, rev no)
+	| a::l -> if p a then partition2 (a::yes,no) l else partition2 (yes,a::no) l
+	in partition2 ([],[]) l
+;; 
+
+let rec association x = function
+	  [] -> raise (Failure "List.Not_found")
+	| (a,b)::l -> if compare x a = 0 then b else association x l
+;;
+
+let rec assq x = function
+	  [] -> raise (Failure "List.Not_found")
+	| (a,b)::l -> if x=a then b else assq x l
+;;
+
+let mem_assoc x l = exists (fun (a,b) -> compare x a = 0) l;;
+
+let mem_assq x l = exists (fun (a,b) -> compare x = a) l;;
+
+
+
+
+
+	
+
+
 
 
 
