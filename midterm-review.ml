@@ -226,7 +226,9 @@ let rec merge cmp l1 l2 = match l1,l2 with
 					 else b::merge cmp l1 t2 
 ;;
 
-
+(*
+	TODO: Add sort, stable_sort, fast_sort and sort_uniq
+*)
 
 
 
