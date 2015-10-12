@@ -169,12 +169,15 @@ let rec find p = function
 let rec filter p = function 
 	  [] -> []
 	| a::l -> if p a then a::(filter p l) else filter p l
-;;  
+;;
+
+let find_all = filter;;  
 
 let partition p l = 
 	let rec partition2 (yes,no) = function 
 	  [] -> (rev yes, rev no)
-	| a::l -> if p a then partition2 (a::yes,no) l else partition2 (yes,a::no) l
+	| a::l -> if p a then partition2 (a::yes,no) l 
+			  else partition2 (yes,a::no) l
 	in partition2 ([],[]) l
 ;; 
 
@@ -191,6 +194,38 @@ let rec assq x = function
 let mem_assoc x l = exists (fun (a,b) -> compare x a = 0) l;;
 
 let mem_assq x l = exists (fun (a,b) -> compare x = a) l;;
+
+let rec remove_assoc x = function
+	  [] -> []
+	| (a,b as pair)::l -> if (compare x a = 0) then l 
+						  else pair::remove_assoc x l
+;;
+
+let rec remove_assq x = function
+	  [] -> []
+	| (a,b as pair)::l -> if a=x then l 
+						  else pair::remove_assq x l
+;;
+
+let rec split = function 
+	  [] -> ([],[])
+	| (a,b)::l -> let (l1,l2) = split l in a::l1,b::l2
+;;
+
+let rec combine = function
+	  [],[] -> []
+	| (a::l1,b::l2) -> (a,b)::(combine (l1,l2))
+	| _,_ -> raise (Failure "List.Invalid_argument")
+;;
+
+
+
+
+
+
+
+
+
 
 
 
