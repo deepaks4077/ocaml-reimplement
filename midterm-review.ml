@@ -100,6 +100,50 @@ let rec rev_map f l r = match l with
 
 let rev_map f = rev_map f l [];;
 
+let rec fold_left f l acc = match l with 
+	| [] -> acc
+	| a::l -> fold_left f (f acc a) l
+;;
+
+let rec fold_right f l acc  = match l with 
+	| [] -> acc
+	| a::l -> f a (fold_right f acc l)
+;;
+
+let rec iter2 f l1 l2 = match l1,l2 with
+	| ([],[]) -> ()
+	| (a1::l1,a2::l2) -> f a1 a2 ; iter2 f l1 l2
+	| (_,_) -> raise (Failure "List.Invalid_argument")
+;;
+
+let rev_map2 f l1 l2 = 
+	let rec rrev_map2 l1 l2 acc = 
+		match l1,l2 with
+			| ([],[]) -> acc
+			| (a1::l1,a2::l2) -> 
+				let r = f a1 a2 in rrev_map2 l1 l2 (r::acc)
+			| (_,_) -> raise (Failure "List.Invalid_argument")
+	in rrev_map2 l1 l2 []
+;;	 
+	
+let rec map2 f l1 l2 = match l1,l2 with 
+	| ([],[]) -> []
+	| (a1::l1,a2::l2) -> let r = f a1 a2 in r::(map2 f l1 l2)
+	| (_,_) -> raise (Failure "List.Invalid_argument")
+;;
+
+let rec for_all p = function 
+	| [] -> true
+	| a::l -> p a && for_all p l
+;;
+
+let rec exists p = function 
+	| [] -> false
+	| a::l -> p a || exists p l
+;;
+
+
+
 
 
 
