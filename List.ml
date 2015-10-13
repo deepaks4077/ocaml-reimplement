@@ -98,7 +98,7 @@ let rec rev_map f l r = match l with
 	| a::l -> rev_map f l ((f a)::r)
 ;;
 
-let rev_map f = rev_map f l [];;
+let rev_map f l = rev_map f l [];;
 
 let rec fold_left f l acc = match l with 
 	| [] -> acc
